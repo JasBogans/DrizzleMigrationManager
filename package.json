@@ -1,0 +1,22 @@
+{
+  "name": "drizzle-migration-tool",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "drizzle:generate": "drizzle-kit generate:pg --config drizzle.config.ts",
+    "drizzle:push": "drizzle-kit push:pg --config drizzle.config.ts",,
+    "migration:generate": "npx tsx src/db/generateMigration.ts",
+    "migration:generate:named": "npx tsx src/db/generateMigration.ts",
+    "migration:all": "npx tsx src/db/runAllMigrations.ts",
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.4",
+    "pg": "^8.11.3",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/pg": "^8.11.4",
+    "typescript": "^5"
+  }
+}
