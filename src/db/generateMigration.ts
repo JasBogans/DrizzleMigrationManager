@@ -3,11 +3,17 @@ import { writeFileSync } from "fs";
 import { faker } from "@faker-js/faker";
 import { db } from "@/db/db";
 import { migrationHistory } from "./schema";
+import { sql } from "drizzle-orm";
+import { checkMigrationTable } from "@/utils/dbUtilits";
 
 const generateMigration = async () => {
+  console.log("Loading... ⏳");
+
+  checkMigrationTable(db);
+
   console.log("🚀 Generating migration file... ⏳");
 
-  const migrationsDirectory = resolve(process.cwd(), "src/db/migs");
+  const migrationsDirectory = resolve(process.cwd(), "drizzle/migs");
   const time = new Date();
   const timestamp = time.toISOString().replace(/[-:.TZ]/g, "");
   const migrationName =

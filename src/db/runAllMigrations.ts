@@ -2,17 +2,24 @@ import { resolve } from "path";
 import { readdirSync } from "fs";
 import { db, DrizzleDB } from "@/db/db";
 import { migrationHistory } from "./schema";
-import { eq } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
 import promptUser from "@/utils/promptUser";
+import { checkMigrationTable } from "@/utils/dbUtilits";
 
 const runAllMigrations = async (db: DrizzleDB) => {
+  console.log("Loading... ⏳");
+
+  checkMigrationTable(db);
+
   console.log("🚀 Searching for migrations...");
   const migrationsDirectory = resolve(process.cwd(), "src/db/migs");
   const migrationFiles = readdirSync(migrationsDirectory).filter((file) =>
     file.endsWith(".ts")
   );
 
-  const storedMigrations = await db.query.migrationHistory.findMany();
+  const storedMigrations = await db.query.migrationHistory.findMany({
+    where: (history, { isNull }) => isNull(history.deletedAt),
+  });
 
   const availableMigrations = new Set(
     migrationFiles.map((file) => file.replace(".ts", ""))
