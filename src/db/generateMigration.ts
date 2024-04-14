@@ -21,18 +21,13 @@ const generateMigration = async () => {
   const migrationFileName = `${timestamp}_${migrationName}.ts`;
   const migrationFilePath = resolve(migrationsDirectory, migrationFileName);
 
-  const migrationTemplate = `// Migration: ${migrationFileName.replace(
-    ".ts",
-    ""
-  )}
-   
-import { DrizzleDB } from "@/db/db";
-import { sql } from "drizzle-orm";
+  const migrationTemplate = `// Migration: ${migrationFileName.replace(".ts","")}   
+  import { DrizzleDB } from "@/db/db";
+  import { sql } from "drizzle-orm";
 
-export async function migration(db: DrizzleDB) {
-  // Write your migration logic here
-}
-`;
+  export async function migration(db: DrizzleDB) {
+    // Write your migration logic here
+  }`;
 
   try {
     writeFileSync(migrationFilePath, migrationTemplate);
